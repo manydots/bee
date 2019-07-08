@@ -1,3 +1,4 @@
+'use strict';
 import React from 'react';
 
 
@@ -24,10 +25,10 @@ class App extends React.Component {
         return true;
     }
     render() {
-    	console.log(this.state)
+
         return (
         	<div>
-        	  当前数字:{this.state.activityId}
+        	   当前数字:{this.state.activityId}，{this.state.name}
         	</div>
         )
     }
