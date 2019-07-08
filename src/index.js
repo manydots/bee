@@ -1,17 +1,13 @@
 'use strict';
 import React from 'react';
+import C1 from 'pages/course1/index';
 
-
-class App extends React.Component {
+class Test extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activityId: 797445,
-            name: '太阳'
 
         };
-
-        
     }
     componentWillMount() {
 
@@ -28,11 +24,11 @@ class App extends React.Component {
 
         return (
         	<div>
-        	   当前数字:{this.state.activityId}，{this.state.name}
+        	   <C1 />
         	</div>
         )
     }
 
 }
 
-export default App;
+export default Test;
