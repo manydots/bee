@@ -27,7 +27,7 @@ class Base extends React.Component {
 
         return (
         	<div>
-        	   课程1
+        	   test11
         	</div>
         )
     }

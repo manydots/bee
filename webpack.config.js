@@ -1,14 +1,28 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
+var globby = require('globby');
+var cwd = process.cwd();
 var webpack = require('webpack');
 var path = require('path');
 
+var entry = {};
+
+var files = globby.sync(['**/pages/*'], {
+	cwd: cwd + '/src'
+});
+files.forEach((item) => {
+	entry[item + '/index'] = ['./src/' + item + '/index.js'];
+});
+
+console.log(files)
 module.exports = {
 
-	//context: cwd,
+	context: cwd,
 	entry: './main.js',
 	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: '[name].js'
+		path: path.resolve(__dirname, 'build'),
+		filename: '[name].js',
+		chunkFilename: '[chunkhash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx'],
@@ -41,16 +55,26 @@ module.exports = {
 		}, {
 			test: /\.(jsx|js)?$/,
 			exclude: /node_modules/,
-			use: 'babel-loader'
+			use: 'babel-loader',
+			// use: {
+			// 	loader: 'babel-loader',
+			// 	options: {
+			// 		presets: ['es2015', 'react']
+			// 	}
+			// }
 		}]
 	},
 	plugins: [
+		new webpack.BannerPlugin('test'),
 		new ExtractTextPlugin({
 			filename: 'css/[name].css',
 			disable: false,
 			allChunks: true
-		})
+		}),
 
 	]
 
 };
+if (process.env.NODE_ENV === 'production') {
+	module.exports.plugins.push(new CleanWebpackPlugin(), new webpack.optimize.DedupePlugin(), new webpack.optimize.OccurenceOrderPlugin(), new webpack.optimize.UglifyJsPlugin());
+}
