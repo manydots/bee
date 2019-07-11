@@ -1,7 +1,7 @@
 {
-  "name": "webpack",
-  "version": "1.0.0",
-  "description": "",
+  "name": "webpackBee",
+  "version": "1.0.1",
+  "description": "webpack多入口打包配置提取公共类库",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server  --inline --colors --hot --open",
@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/manydots/bee.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["webpack", "react"],
+  "author": "Mo.chen",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/manydots/bee/issues"
