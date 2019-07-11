@@ -6,11 +6,13 @@ var webpack = require('webpack');
 var path = require('path');
 var colors = require('colors');
 
-console.log(`[ mode_env ] ${process.env.NODE_ENV}`.green); // outputs green text 
+// var port = require('./port.js');
+// port.portIsOccupied(9000);
 
+console.log(`[ mode_env ] ${process.env.NODE_ENV}`.green);
 
 var entry = {
-	vendor: ['react', 'react-dom'],
+	vendor: ['react', 'react-dom','react-redux','react-router','react-router-redux','redux-thunk','redux'],
 	vendorCommon: ['jquery']
 };
 
@@ -19,6 +21,7 @@ var files = globby.sync(['**/pages/*'], {
 	cwd: cwd + '/src'
 });
 //console.log('files:----->', files)
+//所有入口主文件都是pages/*/main.js
 files.forEach((item) => {
 	entry[item + '/main'] = ['./src/' + item + '/main.js'];
 });
@@ -113,10 +116,11 @@ if (process.env.NODE_ENV === 'production') {
 				dead_code: true,
 				warnings: false,
 				drop_debugger: true,
-				drop_console: true
+				drop_console: true,
+				loops: true //当do、while 、 for循环的判断条件可以确定是，对其进行优化
 			},
 			mangle: {
-				except: ['$', 'exports', 'require']
+				except: ['$super', '$', 'exports', 'require'] //混淆,并排除关键字
 			},
 			output: {
 				comments: false,
@@ -124,8 +128,8 @@ if (process.env.NODE_ENV === 'production') {
 			}
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(true));
-		console.log('[ webpack ] successful Packaging Compilation.'.green); 
+		console.log('[ webpack ] successful Packaging Compilation.'.green);
 
-}else{
-	console.log('[ webpack ] successful local file construction.'.green); 
+} else {
+	console.log('[ webpack ] successful local file construction.'.green);
 }

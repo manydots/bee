@@ -1,0 +1,24 @@
+@import "../../styles/theme.scss";
+#container {
+  width: 100%;
+  overflow: hidden;
+  
+  .main-content {
+     overflow: hidden;
+     width: 100%;
+     min-width:800px;
+     background: #ececec;
+    .right-content {
+        margin-left:255px;
+        background:#fff;
+        min-height: 800px;
+    }
+    .left-menu{
+      width:240px;
+      float: left;
+      background:#fff;
+      height:100%;
+      min-height: 800px;
+    }
+  }
+}

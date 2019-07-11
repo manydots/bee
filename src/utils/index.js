@@ -1,5 +1,4 @@
 'use strict';
-import reqwest from 'reqwest';
 import $ from 'jquery';
 
 

@@ -1,17 +1,24 @@
-<!doctype html>
-<html>
-  <head>
-    <title>深入REACT技术栈</title>
-    
-	<!-- <script src="build/lib/react-dom.production.min.js"></script>
-	<script src="build/lib/react.production.min.js"></script> -->
-	<script src="vendor.min.js"></script>
-	<script src="vendorCommon.min.js"></script>
+<!DOCTYPE html>
+<html lang="zh">
+ <head>
+  <meta charset="UTF-8">
+  <title>深入REACT技术栈</title>
+  <!-- <script src="build/lib/react-dom.production.min.js"></script>
+  <script src="build/lib/react.production.min.js"></script> -->
+
+  <script src="vendor.min.js"></script>
+  <script src="vendorCommon.min.js"></script>
+
+  <!-- 多入口css修改 start-->
+  <link rel="stylesheet" type="text/css" href="pages/redux/main.build.css">
+  <!-- 多入口css修改 end-->
   </head>
   <body>
-  	<div id="app"></div>
-  	<!-- 引入js 与根目录下main.js此处无关 -->
-   <script src="pages/course1/main.js"></script>
-
+    <div id="container"></div>
+    <!-- 引入js 与根目录下main.js此处无关 -->
+    <!-- 多入口js修改 start-->
+    <!-- 对应编译js的路径 -->
+    <script src="pages/redux/main.js"></script>
+    <!-- 多入口js修改 end-->
   </body>
 </html>
