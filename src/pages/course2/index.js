@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import './index.scss';
+
 
 
 class Base extends React.Component {
@@ -27,7 +27,7 @@ class Base extends React.Component {
 
         return (
         	<div>
-        	   test3333333333333333333333355
+        	   test22222222222222222
         	</div>
         )
     }

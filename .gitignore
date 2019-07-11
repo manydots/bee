@@ -23,7 +23,7 @@ coverage
 build/Release
 
 doc/*.pdf
-
+package-lock.json
 dist
 build
 # Dependency directory

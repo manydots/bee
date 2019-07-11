@@ -4,25 +4,40 @@ var globby = require('globby');
 var cwd = process.cwd();
 var webpack = require('webpack');
 var path = require('path');
+var colors = require('colors');
 
-var entry = {};
+console.log(`[ mode_env ] ${process.env.NODE_ENV}`.green); // outputs green text 
+
+
+var entry = {
+	vendor: ['react', 'react-dom'],
+	vendorCommon: ['jquery']
+};
 
 var files = globby.sync(['**/pages/*'], {
+	//读取根目录/src下的文件夹
 	cwd: cwd + '/src'
 });
+//console.log('files:----->', files)
 files.forEach((item) => {
-	entry[item + '/index'] = ['./src/' + item + '/index.js'];
+	entry[item + '/main'] = ['./src/' + item + '/main.js'];
 });
 
-console.log(files)
+
+// var entrys = {
+// 	'pages/course1/main': ['./src/pages/course1/main.js'],
+// 	'pages/course2/main': ['./src/pages/course2/main.js']
+// };
+//entrys 第一部分对应index.html 引入js路径
+
+//console.log('entry:----->', entry)
 module.exports = {
 
 	context: cwd,
-	entry: './main.js',
+	entry: entry, //./main.js
 	output: {
-		path: path.resolve(__dirname, 'build'),
+		path: path.resolve(__dirname, 'build'), //输出文件的绝对路径
 		filename: '[name].js',
-		chunkFilename: '[chunkhash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx'],
@@ -38,7 +53,7 @@ module.exports = {
 	devServer: {
 		contentBase: "./",
 		host: '127.0.0.1',
-		port: 8080,
+		port: 8088,
 		inline: true,
 		compress: false
 	},
@@ -64,17 +79,53 @@ module.exports = {
 			// }
 		}]
 	},
+	// externals: {
+	// 	'react': 'React',
+	// 	'react-dom': 'ReactDOM',
+	// 	'jquery': 'jQuery'
+	// },
 	plugins: [
+
 		new webpack.BannerPlugin('test'),
 		new ExtractTextPlugin({
-			filename: 'css/[name].css',
+			filename: '[name].build.css',
 			disable: false,
 			allChunks: true
 		}),
-
+		//分离资源库
+		new webpack.optimize.CommonsChunkPlugin({
+			name: ['vendorCommon', 'vendor'],
+			filename: '[name].min.js',
+			minChunks: Infinity
+		})
 	]
 
 };
+
 if (process.env.NODE_ENV === 'production') {
-	module.exports.plugins.push(new CleanWebpackPlugin(), new webpack.optimize.DedupePlugin(), new webpack.optimize.OccurenceOrderPlugin(), new webpack.optimize.UglifyJsPlugin());
+
+	var build = require('./build.js');
+	//生产环境打包压缩
+	module.exports.plugins.push(new CleanWebpackPlugin(),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				unused: true,
+				dead_code: true,
+				warnings: false,
+				drop_debugger: true,
+				drop_console: true
+			},
+			mangle: {
+				except: ['$', 'exports', 'require']
+			},
+			output: {
+				comments: false,
+				ascii_only: true
+			}
+		}),
+		new webpack.optimize.OccurrenceOrderPlugin(true));
+		console.log('[ webpack ] successful Packaging Compilation.'.green); 
+
+}else{
+	console.log('[ webpack ] successful local file construction.'.green); 
 }
